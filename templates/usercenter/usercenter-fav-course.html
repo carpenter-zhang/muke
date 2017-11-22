@@ -1,0 +1,23 @@
+{% extends 'usercenter/usercenter-fav-base.html' %}
+{% block fav_content %}
+<div class="companycenter">
+    <div class="group_list brief">
+    {% for course in course_list %}
+        <div class="module1_5 box">
+            <a href="{% url 'course:course_detail' course.id %}">
+                <img width="214" height="190" src="{{ MEDIA_URL }}{{ course.image }}"/>
+            </a>
+            <div class="des">
+                <a href="{% url 'course:course_detail' course.id %}"><h2>{{ course.name }}</h2></a>
+                <span class="fl">时长：<i class="key">{{ course.learn_times }}</i></span>
+                <span class="fr">学习人数：{{ course.students }}</span>
+            </div>
+            <div class="bottom">
+                <span class="fl">{{ course.course_org }}</span>
+                <span class="delete-group fr jsDeleteFav_course" data-favid="12"></span>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

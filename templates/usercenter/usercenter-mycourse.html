@@ -1,0 +1,73 @@
+{% extends 'usercenter-base.html' %}
+{% block title %}我的课程{% endblock %}
+{% block custom_bread %}
+    <section>
+        <div class="wp">
+            <ul  class="crumbs">
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                <li><a href="{% url 'user:user_info'%}">个人中心</a>></li>
+                <li>我的课程</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+
+{% block right_content %}
+<div class="right" >
+		<div class="personal_des Releasecont">
+			<div class="head">
+				<h1>我的课程</h1>
+			</div>
+		</div>
+		<div class="personal_des permessage">
+			<div class="companycenter">
+				<div class="group_list brief">
+                    {% for usercourse in all_usercourse.object_list %}
+                    <div class="module1_5 box">
+                            <a href="{% url 'course:course_detail' usercourse.course.id %}">
+                                <img width="214" height="190" class="scrollLoading" src="{{ MEDIA_URL }}{{ usercourse.course.image }}"/>
+                            </a>
+                            <div class="des">
+                                <a href="{% url 'course:course_detail' usercourse.course.id %}"><h2>{{ usercourse.course.name }}</h2></a>
+                                <span class="fl">课时：<i class="key">{{ usercourse.course.learn_times }}</i></span>
+                                <span class="fr">学习人数：{{ usercourse.course.learn_times }}</span>
+                            </div>
+                            <div class="bottom">
+                                <span class="fl">{{ usercourse.course.course_org }}</span>
+                                <span class="star fr  notlogin" data-favid="{{ usercourse.course.fav_nums }}">{{ usercourse.course.fav_nums }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="pageturn">
+                        <ul class="pagelist">
+                            <!--是否有前一页-->
+                             {% if all_usercourse.has_previous %}
+                                <li class="long"><a href="?{{ all_usercourse.previous_page_number.querystring }}" class="prev">&lsaquo;&lsaquo;</a></li>
+                            {% endif %}
+
+                            <!--中间页面循环-->
+                            {% for page in all_usercourse.pages %}
+                                {% if page %}
+                                    {% ifequal page all_usercourse.number %}
+                                        <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                        <!--<li class="active"><span class="current page">{{ page }}</span></li>-->
+                                        <!--<span class="current page">{{ page }}</span>-->
+                                    {% else %}
+                                        <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                                    {% endifequal %}
+                                {% else %}
+                                    <li class="long"><a href="">...</a></li>
+                                {% endif %}
+                            {% endfor %}
+                             <!--是否有后一页-->
+                            {% if all_usercourse.has_next %}
+                                <li class="long"><a href="?{{ all_usercourse.next_page_number.querystring }}" class="next"> &rsaquo;&rsaquo;</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
